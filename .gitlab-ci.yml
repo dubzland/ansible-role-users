@@ -13,4 +13,4 @@ build:
   stage: build
   script:
     - docker build -t dubzland-users -f tests/Dockerfile .
-    - docker run dubzland-users ansible-playbook -i /usr/src/playbook/tests/inventory.yml /usr/src/playbook/tests/test.yml
+    - docker run dubzland-users ansible-playbook -i /usr/src/dubzland-users/tests/inventory.yml /usr/src/dubzland-users/tests/test.yml

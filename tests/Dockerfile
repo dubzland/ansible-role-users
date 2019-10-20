@@ -13,11 +13,10 @@ RUN apt-get update && \
 	apt-get update && \
 	apt-get install -y ansible
 
-WORKDIR /usr/src/playbook
+WORKDIR /usr/src/dubzland-users
 
-RUN mkdir -p /usr/src/playbook
+RUN mkdir -p /usr/src/dubzland-users
 
-ADD . /usr/src/playbook
+ADD . /usr/src/dubzland-users
 
-ENV ANSIBLE_CONFIG=/usr/src/playbook/tests/ansible.cfg
 ENV ANSIBLE_ROLES_PATH=/usr/src/
