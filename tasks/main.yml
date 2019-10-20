@@ -42,7 +42,7 @@
     user: "{{ item.key }}"
     key: "https://github.com/{{ item.value.github_username }}.keys"
     state: present
-    with_dict: "{{ dubzland_users }}"
+  with_dict: "{{ dubzland_users }}"
   when: item.value.github_username is defined
   tags:
     - users
