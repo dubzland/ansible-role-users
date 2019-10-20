@@ -1,0 +1,16 @@
+image: docker:10.03.1
+
+variables:
+  DOCKER_TLS_CERTDIR: "/certs"
+
+services:
+  - docker:19.03.1-dind
+
+before_script:
+  - docker info
+
+build:
+  stage: build
+  script:
+    - docker build -t dubzland-users -f tests/Dockerfile .
+    - docker run dubzland-users ansible-playbook -i /usr/src/playbook/tests/inventory.yml /usr/src/playbook/tests/test.yml
