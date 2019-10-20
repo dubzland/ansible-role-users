@@ -1,0 +1,48 @@
+---
+- name: ensure the admin group exists
+  group:
+    name: '{{ dubzland_users_admin_group }}'
+    state: present
+  tags:
+    - users
+
+- name: ensure admins exist
+  user:
+    name: "{{ item.key }}"
+    shell: /bin/bash
+    groups: "{{ dubzland_users_admin_group }}"
+    password: "{{ dubzland_users_admin_default_password }}"
+    update_password: on_create
+    state: present
+  with_dict: "{{ dubzland_users_admins }}"
+  tags:
+    - users
+
+- name: ensure normal users exist
+  user:
+    name: "{{ item.key }}"
+    shell: /bin/bash
+    state: present
+  with_dict: "{{ dubzland_users }}"
+  tags:
+    - users
+
+- name: install ssh keys for admins
+  authorized_key:
+    user: "{{ item.key }}"
+    key: "https://github.com/{{ item.value.github_username }}.keys"
+    state: present
+  with_dict: "{{ dubzland_users_admins }}"
+  when: item.value.github_username is defined
+  tags:
+    - users
+
+- name: install ssh keys for normal users
+  authorized_key:
+    user: "{{ item.key }}"
+    key: "https://github.com/{{ item.value.github_username }}.keys"
+    state: present
+    with_dict: "{{ dubzland_users }}"
+  when: item.value.github_username is defined
+  tags:
+    - users
