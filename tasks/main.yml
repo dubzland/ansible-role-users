@@ -6,6 +6,16 @@
   tags:
     - users
 
+- name: ensure admin users can sudo without a password
+  copy:
+    content: "%{{ dubzland_users_admin_group }} ALL=(ALL) NOPASSWD: ALL\n"
+    dest: /etc/sudoers.d/011-admins-nopasswd
+    owner: root
+    group: root
+    mode: 0440
+  tags:
+    - users
+
 - name: ensure admins exist
   user:
     name: "{{ item.key }}"
