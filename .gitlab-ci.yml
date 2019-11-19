@@ -1,16 +1,11 @@
-image: docker:19.03.1
-
-variables:
-  DOCKER_TLS_CERTDIR: "/certs"
+---
+image: jdubz/ci-docker-ansible:latest
 
 services:
   - docker:19.03.1-dind
 
-before_script:
-  - docker info
-
-build:
-  stage: build
+molecule:
+  stage: test
   script:
-    - docker build -t dubzland-users -f tests/Dockerfile .
-    - docker run dubzland-users ansible-playbook -i /usr/src/dubzland-users/tests/inventory.yml /usr/src/dubzland-users/tests/test.yml
+    - ansible --version
+    - molecule test
